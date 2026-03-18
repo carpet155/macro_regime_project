@@ -38,5 +38,10 @@ pip install pandas numpy matplotlib
 ```
 ---
 ## Data Sources 
-- n/A
-
+**Raw Macro Data**
+- [CPI (inflation)](data/raw/CPIAUCSL.csv): https://fred.stlouisfed.org/series/CPIAUCSL 
+- [Federal Funds Rate](data/raw/FEDFUNDS.csv): https://fred.stlouisfed.org/series/FEDFUNDS
+- [2-Year Treasury Yield](data/raw/DGS2.csv): https://fred.stlouisfed.org/series/DGS2
+- [10-Year Treasury Yield](data/raw/DGS10.csv): https://fred.stlouisfed.org/series/DGS10
+- [VIX](data/raw/VIXCLS.csv): https://fred.stlouisfed.org/series/VIXCLS
+- [S&P500](data/raw/SP500.csv): https://finance.yahoo.com/quote/%5EGSPC/history/?period1=-1325583000&period2=1773804185
