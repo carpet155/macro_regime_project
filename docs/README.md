@@ -37,6 +37,5 @@ cd your-repo-name
 pip install pandas numpy matplotlib
 ```
 ---
-## Data Sources 
-- n/A
-
+## Data Sources NOTE 
+- We need to focus on writing and creating python functions to retrieve the financial data. We DO NOT need to seek raw data from outside sources. 
