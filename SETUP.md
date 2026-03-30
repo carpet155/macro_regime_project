@@ -37,10 +37,14 @@ This project requires **Python 3.8 or newer**.
 ### Mac
 
 Python 3 may already be installed. Check by running:
+
 ```bash
 python3 --version
 ```
+
 If not installed, download it from [python.org/downloads](https://www.python.org/downloads/) and run the installer.
+
+> **Note:** On Mac, you will typically need to use `python3` and `pip3` instead of `python` and `pip`. The rest of this guide uses `python` and `pip` for brevity — substitute `python3`/`pip3` if you are on Mac.
 
 ### Windows
 
@@ -50,8 +54,6 @@ If not installed, download it from [python.org/downloads](https://www.python.org
    ```bash
    python --version
    ```
-
-> **Note:** On Mac, you may need to use `python3` and `pip3` instead of `python` and `pip`.
 
 ---
 
@@ -69,46 +71,95 @@ This creates a folder called `3250_class_project` with all the project files. Mo
 cd 3250_class_project
 ```
 
+> **Tip:** All commands from this point forward should be run from inside the `3250_class_project` folder. If you close and reopen your terminal, remember to `cd 3250_class_project` again.
+
 ---
 
 ## 4. Install Required Packages
 
-Run this command inside the project folder:
+Make sure you are inside the `3250_class_project` folder (see Step 3), then run:
 
 ```bash
-pip install pandas numpy matplotlib pytest
+pip install pandas numpy matplotlib
 ```
 
 This installs:
-| Package | Purpose |
-|---|---|
-| **pandas** | Data manipulation and analysis |
-| **numpy** | Numerical computing |
-| **matplotlib** | Plotting and visualization |
-| **pytest** | Running the test suite |
+
+| Package              | Purpose                        |
+| -------------------- | ------------------------------ |
+| **pandas**     | Data manipulation and analysis |
+| **numpy**      | Numerical computing            |
+| **matplotlib** | Plotting and visualization     |
 
 ---
 
 ## 5. Verify Everything Works
 
-Run the test suite to make sure the setup is correct:
+Open a Python prompt and try importing the project's dependencies:
 
 ```bash
-pytest tests/
+python -c "import pandas; import numpy; import matplotlib; print('All packages installed successfully!')"
 ```
 
-If the tests pass (or show expected skips), you're all set.
+If you see `All packages installed successfully!`, you're all set. If you get an error like `ModuleNotFoundError`, re-run the `pip install` command from Step 4.
+
+---
+
+## 6. Basic Git Workflow
+
+Since this is a group project, everyone pushes changes to the same repository. Here is the basic workflow:
+
+### Before you start working
+
+Always pull the latest changes first so you're not working on outdated code:
+
+```bash
+git pull
+```
+
+### Creating a branch
+
+Work on a separate branch to avoid conflicts with others:
+
+```bash
+git checkout -b your-name/short-description
+```
+
+For example: `git checkout -b leo/add-inflation-script`
+
+### Saving and pushing your work
+
+```bash
+git add <files you changed>       # Stage specific files
+git commit -m "Brief description of what you did"
+git push -u origin branch-name
+```
+
+Then open a **Pull Request** on GitHub to merge your branch into `main`.
+
+- Make sure your commit messages are detailed enough for users that didn't work with you to know what you accomplished without having to read through your code. "quick fixes" is not an acceptable commit message.
+
+### If you get a merge conflict
+
+1. Run `git pull` to fetch the latest changes.
+2. Git will mark the conflicting lines in the file. Open the file, pick the correct version, and remove the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+3. Stage and commit the resolved file.
+
+> **Tip:** Commit and push often. Small, frequent commits are much easier to merge than one giant change at the end.
 
 ---
 
 ## Quick Reference
 
-| Task | Command |
-|---|---|
-| Pull the latest changes | `git pull` |
-| Check which files you changed | `git status` |
-| Run all tests | `pytest tests/` |
-| Run a specific script | `python scripts/ingest_inflation.py` |
+| Task                          | Command                                   |
+| ----------------------------- | ----------------------------------------- |
+| Pull the latest changes       | `git pull`                              |
+| Create a new branch           | `git checkout -b your-name/description` |
+| Check which files you changed | `git status`                            |
+| Stage files for commit        | `git add <filename>`                    |
+| Commit your changes           | `git commit -m "message"`               |
+| Push your branch              | `git push -u origin branch-name`        |
+| Run all tests                 | `pytest tests/`                         |
 
 ---
 
@@ -118,3 +169,8 @@ If the tests pass (or show expected skips), you're all set.
 - **Permission denied:** Add `--user` to the install command: `pip install --user pandas numpy matplotlib pytest`.
 - **`python` not found on Windows:** Reinstall Python and make sure you checked **"Add Python to PATH"**.
 - **`git` not recognized on Windows:** Make sure you're using **Git Bash**, not the regular Command Prompt.
+- **Tests fail with `ModuleNotFoundError`:** You are missing a package — re-run the `pip install` command from Step 4.
+- **Merge conflicts:** See the "If you get a merge conflict" section above.
+
+
+!!! If you look through this checklist and follow the steps, but still are unable to download or run into some undocumented issues, reach out in the groupme.
