@@ -1,3 +1,6 @@
+
+---
+
 # Getting Started
 
 A step-by-step guide for setting up this project on your computer. No prior experience with Git or the command line is required.
@@ -12,6 +15,7 @@ Git is a version control tool that lets you download and collaborate on code.
 
 1. Open **Terminal** (search "Terminal" in Spotlight with `Cmd + Space`).
 2. Type the following and press Enter:
+
    ```bash
    git --version
    ```
@@ -24,6 +28,7 @@ Git is a version control tool that lets you download and collaborate on code.
 2. Run the installer. **Use the default options** at every step — just keep clicking Next.
 3. Once installed, open **Git Bash** (search for it in the Start menu). This is the terminal you will use for all commands below.
 4. Verify by typing:
+
    ```bash
    git --version
    ```
@@ -51,126 +56,137 @@ If not installed, download it from [python.org/downloads](https://www.python.org
 1. Download Python from [python.org/downloads](https://www.python.org/downloads/).
 2. **Important:** During installation, check the box that says **"Add Python to PATH"** before clicking Install.
 3. Verify by opening Git Bash and typing:
+
    ```bash
    python --version
    ```
 
 ---
 
-## 3. Download the Project
+## 3. Workflow
 
-Open your terminal (Terminal on Mac, Git Bash on Windows) and run:
-
-```bash
-git clone https://github.com/carpet155/3250_class_project.git
-```
-
-This creates a folder called `3250_class_project` with all the project files. Move into it:
-
-```bash
-cd 3250_class_project
-```
-
-> **Tip:** All commands from this point forward should be run from inside the `3250_class_project` folder. If you close and reopen your terminal, remember to `cd 3250_class_project` again.
+Moving forward, each feature/change we work on will be its own branch and I’ll explain what that means. For now, I have deleted all the old branches before today, sorry.
 
 ---
 
-## 4. Install Required Packages
+## 4. Finding an Issue
 
-Make sure you are inside the `3250_class_project` folder (see Step 3), then run:
-
-```bash
-pip install pandas numpy matplotlib
-```
-
-This installs:
-
-| Package              | Purpose                        |
-| -------------------- | ------------------------------ |
-| **pandas**     | Data manipulation and analysis |
-| **numpy**      | Numerical computing            |
-| **matplotlib** | Plotting and visualization     |
+To find an Issue to work on go to [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project), and click on Issues at the top. Find any issue that you think you can tackle and click on it. You should see a screen like the one below. On the bottom right side there is “Development”, the branch you want to work on for this specific issue will be “feature/notebook-walkthrough”. This isn't the branch name for all the Issues, "feature/notebook-walkthrough" is just the name of the branch that I will refer to in the steps below as an example.
 
 ---
 
-## 5. Verify Everything Works
+## 5. Setup Steps
 
-Open a Python prompt and try importing the project's dependencies:
+Once you get that branch name, follow the steps below.
+
+Steps:
+
+1. Open Terminal on VSCode (or any coding platform)
+2. Navigate to your STAT3250 Folder (or wherever you want to keep the files for this project)
+
+This should be done using “cd”, if you don’t know what that means or how to navigate folders in Terminal, ask me, Charlie, Leo, or ChatGPT/Claude for help. "ls" might help too.
+
+In Terminal type the following commands:
+
+3.
 
 ```bash
-python -c "import pandas; import numpy; import matplotlib; print('All packages installed successfully!')"
+git clone https://github.com/carpet155/macro_regime_project.git
 ```
 
-If you see `All packages installed successfully!`, you're all set. If you get an error like `ModuleNotFoundError`, re-run the `pip install` command from Step 4.
+4.
+
+```bash
+cd macro_regime_project
+```
+
+5.
+
+```bash
+git fetch origin
+```
+
+6.
+
+```bash
+git checkout (name of branch you want to work on)
+```
+
+EX:
+
+```bash
+git checkout feature/notebook-walkthrough
+```
+
+After Step 6, you are now working in your branch, you can exit Terminal.
 
 ---
 
-## 6. Basic Git Workflow
+## 6. Doing Your Work
 
-Since this is a group project, everyone pushes changes to the same repository. Here is the basic workflow:
-
-### Before you start working
-
-Always pull the latest changes first so you're not working on outdated code:
-
-```bash
-git pull
-```
-
-### Creating a branch
-
-Work on a separate branch to avoid conflicts with others:
-
-```bash
-git checkout -b your-name/short-description
-```
-
-For example: `git checkout -b leo/add-inflation-script`
-
-### Saving and pushing your work
-
-```bash
-git add <files you changed>       # Stage specific files
-git commit -m "Brief description of what you did"
-git push -u origin branch-name
-```
-
-Then open a **Pull Request** on GitHub to merge your branch into `main`.
-
-- Make sure your commit messages are detailed enough for users that didn't work with you to know what you accomplished without having to read through your code. "quick fixes" is not an acceptable commit message.
-
-### If you get a merge conflict
-
-1. Run `git pull` to fetch the latest changes.
-2. Git will mark the conflicting lines in the file. Open the file, pick the correct version, and remove the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
-3. Stage and commit the resolved file.
-
-> **Tip:** Commit and push often. Small, frequent commits are much easier to merge than one giant change at the end.
+7. Do your work that fulfills the GitHub Issue related to that branch. Try to not edit other files which are already in the branch. You should aim to only be adding files, if you remove/edit other files you may run into issues later on. If you must remove/edit other files and run into issues, you can ask me, Charlie, Leo, or ChatGPT/Claude for help.
 
 ---
 
-## Quick Reference
+## 7. Saving Your Work
 
-| Task                          | Command                                   |
-| ----------------------------- | ----------------------------------------- |
-| Pull the latest changes       | `git pull`                              |
-| Create a new branch           | `git checkout -b your-name/description` |
-| Check which files you changed | `git status`                            |
-| Stage files for commit        | `git add <filename>`                    |
-| Commit your changes           | `git commit -m "message"`               |
-| Push your branch              | `git push -u origin branch-name`        |
-| Run all tests                 | `pytest tests/`                         |
+Once you finish your work, go back in Terminal. you should follow the next 3 steps:
+
+8.
+
+```bash
+git add .
+```
+
+The "." in Step 8 adds all the files you changed.
+
+9.
+
+```bash
+git commit -m “(Literally can be anything inside the quotes)”
+```
+
+EX:
+
+```bash
+git commit -m “added X, updated Y, fixed Z”
+```
+
+10.
+
+```bash
+git push -u origin (name of branch you are working on)
+```
+
+EX:
+
+```bash
+git push -u origin feature/notebook-walkthrough
+```
+
+Now you have fully added all your changes into GItHub. If you go to that branch on the GitHub repository, the files that you have on your computer should be the same files that show up on GitHub.
 
 ---
 
-## Troubleshooting
+## 8. Creating a Pull Request
 
-- **`pip` not found:** Try `pip3` instead of `pip`, or `python -m pip install ...`.
-- **Permission denied:** Add `--user` to the install command: `pip install --user pandas numpy matplotlib pytest`.
-- **`python` not found on Windows:** Reinstall Python and make sure you checked **"Add Python to PATH"**.
-- **`git` not recognized on Windows:** Make sure you're using **Git Bash**, not the regular Command Prompt.
-- **Tests fail with `ModuleNotFoundError`:** You are missing a package — re-run the `pip install` command from Step 4.
-- **Merge conflicts:** See the "If you get a merge conflict" section above.
+11. Now you can navigate to the GitHub main page, [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project)
+12. At the top of the page, click on “Pull Requests”
+13. Then click on the green “New Pull Request”
+14. Keep base:main, and in compare:, choose the branch that you have been working on and create the Pull Request.
 
+Your pull request will remain open until other people review it and accept that pull request which essentially takes all your work from your branch and adds it into the “main” branch.
+
+Everyone will work like this and at the end the “main” branch will be our finished project.
+
+---
+
+## 9. Help
+
+ASK ME, CHARLIE, LEO, OR CHATGPT/CLAUDE FOR QUESTIONS! (edited)
+
+---
+
+## 10. Troubleshooting
 
 !!! If you look through this checklist and follow the steps, but still are unable to download or run into some undocumented issues, reach out in the groupme.
