@@ -71,7 +71,7 @@ Moving forward, each feature/change we work on will be its own branch and I’ll
 
 ## 4. Finding an Issue
 
-To find an Issue to work on go to [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project), and click on Issues at the top. Find any issue that you think you can tackle and click on it. You should see a screen like the one below. On the bottom right side there is “Development”, the branch you want to work on for this specific issue will be “feature/notebook-walkthrough”. This isn't the branch name for all the Issues, "feature/notebook-walkthrough" is just the name of the branch that I will refer to in the steps below as an example.
+To find an Issue to work on go to [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project), and click on Issues at the top. Find any issue that you think you can tackle and click on it. Reference the shared excel link in GroupMe to add your name to that issue and confirm nobody else has assigned themselves that issue. Add your GitHub username to the Assignee section and add your name to the Excel (I will do this manually as well, GitHub assignee is the source of truth). In GitHub, you should see a screen like the one below. On the bottom right side there is “Development”, the branch you want to work on for this specific issue will be “feature/notebook-walkthrough”. This isn't the branch name for all the Issues, "feature/notebook-walkthrough" is just the name of the branch that I will refer to in the steps below as an example.
 
 ---
 
