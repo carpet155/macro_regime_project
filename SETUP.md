@@ -69,24 +69,110 @@ Moving forward, each feature/change we work on will be its own branch and I’ll
 
 ---
 
+Here is your **complete, clean merged section** (Sections 4–8 + helpful commands), fully consistent with your existing `SETUP.md` style, with everything integrated:
+
+---
+
 ## 4. Finding an Issue
 
-To find an Issue to work on go to [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project), and click on Issues at the top. Find any issue that you think you can tackle and click on it. Reference the shared excel link in GroupMe to add your name to that issue and confirm nobody else has assigned themselves that issue. Add your GitHub username to the Assignee section and add your name to the Excel (I will do this manually as well, GitHub assignee is the source of truth). In GitHub, you should see a screen like the one below. On the bottom right side there is “Development”, the branch you want to work on for this specific issue will be “feature/notebook-walkthrough”. This isn't the branch name for all the Issues, "feature/notebook-walkthrough" is just the name of the branch that I will refer to in the steps below as an example.
+To find an Issue to work on go to
+[https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project)
+and click on **Issues** at the top.
+
+You will see a list of available issues. Click on one that you think you can tackle.
+
+---
+
+### Issues, Ownership, and Timeline
+
+Issues in GitHub are mirrored in the Excel tracker.
+
+Excel Tracker (timeline + contributions):
+[https://myuva-my.sharepoint.com/:x:/g/personal/gng4fn_virginia_edu/IQCK-6tfyyD1RKthMXVus1bXAbZtbg9eqWFbcwxjVWgzi4w?e=oDW2Ho](https://myuva-my.sharepoint.com/:x:/g/personal/gng4fn_virginia_edu/IQCK-6tfyyD1RKthMXVus1bXAbZtbg9eqWFbcwxjVWgzi4w?e=oDW2Ho)
+
+GitHub Milestones (organized by section + week):
+[https://github.com/carpet155/macro_regime_project/milestones](https://github.com/carpet155/macro_regime_project/milestones)
+
+Key rules:
+
+* GitHub Assignee = source of truth for ownership
+* Excel = contribution tracking + timeline through April 29
+* You must update **both**
+* Do NOT assign yourself in only one place
+
+---
+
+### Order of Work (Important)
+
+* Work in **section order** (Setup → Pipeline → Cleaning → Feature Engineering → etc.)
+* Follow **dates in Excel + milestones**
+
+Some issues depend on previous ones:
+
+* Example: You must clean data before creating features
+
+Some issues are independent within a section
+
+If unsure:
+
+* Check milestone
+* Check issue description
+* Ask before skipping ahead
+
+---
+
+### How to Claim an Issue
+
+When you open an issue page, look at the **right-hand panel**.
+
+You will see:
+
+**Assignees**
+
+* If it says: *“No one – Assign yourself”*, it is available
+* Click **Assign yourself** to claim it
+
+**Development**
+
+* This shows the **feature branch you must use**
+
+Example:
+
+```
+feature/handle-nulls
+```
+
+---
+
+### Process for Taking an Issue
+
+1. Check Excel or GitHub milestones (timeline)
+2. Make sure nobody owns it:
+
+   * Check **Assignees (right panel)**
+   * Check Excel tracker
+3. Assign yourself on GitHub
+4. Add yourself to Excel
+5. Start work
 
 ---
 
 ## 5. Setup Steps
 
-Once you get that branch name, follow the steps below.
+Once you get the branch name from the **Development section**, follow the steps below.
 
 Steps:
 
 1. Open Terminal on VSCode (or any coding platform)
-2. Navigate to your STAT3250 Folder (or wherever you want to keep the files for this project)
+2. Navigate to your STAT3250 Folder
 
-This should be done using “cd”, if you don’t know what that means or how to navigate folders in Terminal, ask me, Charlie, Leo, or ChatGPT/Claude for help. "ls" might help too.
+Use:
 
-In Terminal type the following commands:
+```bash
+cd path/to/your/folder
+```
+
+Then:
 
 3.
 
@@ -118,19 +204,19 @@ EX:
 git checkout feature/notebook-walkthrough
 ```
 
-After Step 6, you are now working in your branch, you can exit Terminal.
+After Step 6, you are now working in your branch.
 
 ---
 
 ## 6. Doing Your Work
 
-7. Do your work that fulfills the GitHub Issue related to that branch. Try to not edit other files which are already in the branch. You should aim to only be adding files, if you remove/edit other files you may run into issues later on. If you must remove/edit other files and run into issues, you can ask me, Charlie, Leo, or ChatGPT/Claude for help.
+* Do your work that fulfills the GitHub Issue related to that branch. Try to not edit other files which are already in the branch. You should aim to only be adding files, if you remove/edit other files you may run into issues later on. If you must remove/edit other files and run into issues, you can ask me, Charlie, Leo, or ChatGPT/Claude for help.
 
 ---
 
 ## 7. Saving Your Work
 
-Once you finish your work, go back in Terminal. you should follow the next 3 steps:
+Once you finish your work, go back in Terminal. You should follow the next 3 steps:
 
 8.
 
@@ -143,13 +229,13 @@ The "." in Step 8 adds all the files you changed.
 9.
 
 ```bash
-git commit -m “(Literally can be anything inside the quotes)”
+git commit -m "(Literally can be anything inside the quotes)"
 ```
 
 EX:
 
 ```bash
-git commit -m “added X, updated Y, fixed Z”
+git commit -m "added missing macro handling logic"
 ```
 
 10.
@@ -164,29 +250,51 @@ EX:
 git push -u origin feature/notebook-walkthrough
 ```
 
-Now you have fully added all your changes into GItHub. If you go to that branch on the GitHub repository, the files that you have on your computer should be the same files that show up on GitHub.
+Now your changes are on GitHub. If you go to that branch on the GitHub repository, the files that you have on your computer should be the same files that show up on GitHub.
 
 ---
 
 ## 8. Creating a Pull Request
 
-11. Now you can navigate to the GitHub main page, [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project)
-12. At the top of the page, click on “Pull Requests”
-13. Then click on the green “New Pull Request”
-14. Keep base:main, and in compare:, choose the branch that you have been working on and create the Pull Request.
+11. Now you can navigate to the GitHub main page:
+    [https://github.com/carpet155/macro_regime_project](https://github.com/carpet155/macro_regime_project)
 
-Your pull request will remain open until other people review it and accept that pull request which essentially takes all your work from your branch and adds it into the “main” branch.
+12. At the top of the page, click on **Pull Requests**
 
-Everyone will work like this and at the end the “main” branch will be our finished project.
+13. Click the green **“New Pull Request”** button
+
+14. Keep:
+
+* base → `main`
+* compare → your branch
+
+Then create the Pull Request.
+
+Your pull request will remain open until other people review it and accept that pull request, which takes your work from your branch and adds it into the **main** branch.
+
+Everyone will work like this and at the end the **main** branch will be our finished project.
 
 ---
 
-## 9. Help
+## Helpful Commands
 
-ASK ME, CHARLIE, LEO, OR CHATGPT/CLAUDE FOR QUESTIONS! (edited)
+| Command                   | What it does                             |
+| ------------------------- | ---------------------------------------- |
+| `ls`                      | Shows files/folders in current directory |
+| `cd folder_name`          | Moves into a folder                      |
+| `cd ..`                   | Moves up one folder                      |
+| `git clone <repo>`        | Downloads the repository                 |
+| `cd macro_regime_project` | Moves into the project folder            |
+| `git fetch origin`        | Gets latest branches from GitHub         |
+| `git checkout <branch>`   | Switches to a branch                     |
+| `git status`              | Shows current changes and branch         |
+| `git add .`               | Stages all changes                       |
+| `git commit -m "message"` | Saves your changes locally               |
+| `git push`                | Uploads your changes to GitHub           |
+| `git pull`                | Gets latest updates from remote          |
+| `python --version`        | Checks Python version                    |
+| `pip list`                | Shows installed packages                 |
 
 ---
 
-## 10. Troubleshooting
 
-!!! If you look through this checklist and follow the steps, but still are unable to download or run into some undocumented issues, reach out in the groupme.
