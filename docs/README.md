@@ -32,9 +32,9 @@ Charles Stewart, Gianna Gatling, Muhammad Rashid, Leo Lee, David Okorie, Ethan O
 **Installation**
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-pip install pandas numpy matplotlib
+git clone https://github.com/carpet155/macro_regime_project.git
+cd macro_regime_project
+python -m pip install -e ".[dev]"
 ```
 ---
 ## Data Sources 
