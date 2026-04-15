@@ -90,3 +90,35 @@ def standardize_bday_index(df: pd.DataFrame, date_col: str = 'date') -> pd.DataF
     df = df.reset_index().rename(columns={'index': 'date'})
     
     return df
+
+def align_inflation_to_daily(df: pd.DataFrame, date_col: str = "date", value_col: str = "value") -> pd.DataFrame:
+    """
+    Convert monthly CPI data to daily business-day frequency using forward fill.
+
+    Each monthly CPI value is carried forward across all business days until
+    the next monthly release — matching how macro data is interpreted in markets.
+
+    Args:
+        df: DataFrame with monthly CPI data (e.g. CPIAUCSL).
+        date_col:  Name of the date column. Default is "date".
+        value_col: Name of the CPI value column. Default is "value".
+
+    Returns:
+        DataFrame with one row per business day, no missing values within
+        the original date range. Columns: [date_col, value_col].
+    """
+    df = df.copy()
+
+    df[date_col] = pd.to_datetime(df[date_col])
+    df = df.set_index(date_col).sort_index()
+
+    start = df.index.min()
+    end = df.index.max()
+    biz_day_index = pd.date_range(start=start, end=end, freq="B")
+
+    df = df.reindex(biz_day_index)
+    df[value_col] = df[value_col].ffill()
+
+    df = df.reset_index().rename(columns={"index": date_col})
+
+    return df[[date_col, value_col]]
