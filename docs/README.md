@@ -6,7 +6,7 @@ This project analyzes the impact between the macro environment under different e
 
 ## Group Members 
 
-Charles Stewart, Gianna Gatling, Muhammad Rashid, Leo Lee, David Okorie, Ethan Ooi, Goretty Bustamente Pinares, Alaa Hayajneh, Shlok Rawal, Ishan Srivastava, Benjamin Davis, Adam Lucas, Bithynia Solomon, Nemmo Ciccone, Peter Burhouse, Morgan Simmons, Shikha Raghuram, Amita Pavuloori. 
+Charles Stewart, Gianna Gatling, Muhammad Rashid, Leo Lee, David Okorie, Ethan Ooi, Goretty Bustamante Pinares, Alaa Hayajneh, Shlok Rawal, Ishan Srivastava, Benjamin Davis, Adam Lucas, Bithynia Solomon, Nemmo Ciccone, Peter Burhouse, Morgan Simmons, Shikha Raghuram, Amita Pavuloori. 
 
 ---
 
