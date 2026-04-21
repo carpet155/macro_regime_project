@@ -61,9 +61,11 @@ def assign_inflation_regime(
     threshold = out[inflation_col].median() if method == "median" else fixed_threshold
 
     # Vectorized classification — strictly above threshold = "high"
-    out["inflation_regime"] = out[inflation_col].apply(
-        lambda v: "high" if (v == v and v > threshold) else ("low" if v == v else None)
+    out["inflation_regime"] = np.where(
+        out[inflation_col] > threshold, "high",
+        np.where(out[inflation_col].isna(), np.nan, "low")
     )
+    out["inflation_regime"] = pd.Series(out["inflation_regime"], dtype="object")
 
     # Forward/back fill NaNs introduced by missing CPI values
     out["inflation_regime"] = out["inflation_regime"].ffill().bfill()
@@ -159,7 +161,7 @@ def classify_rate_regime(
     # ties (delta == 0) and NaNs left as None, filled below
 
     # Fill ties and warm-up rows
-    regime = regime.ffill().bfill().fillna("falling")
+    regime = regime.ffill().bfill()
 
     remaining_nans = regime.isna().sum()
     if remaining_nans > 0:
