@@ -6,8 +6,9 @@ for panel-style analysis (issue #72).
 
 Functions
 ---------
-build_panel_df    : wrap build_master_df and set a (date, ticker) MultiIndex
-pivot_panel_wide  : pivot a panel column to wide format (index=date, cols=ticker)
+build_panel_df      : wrap build_master_df and set a (date, ticker) MultiIndex
+build_wide_panel_df : build wide panel with index=date and (feature, ticker) columns
+pivot_panel_wide    : pivot a panel column to wide format (index=date, cols=ticker)
 
 All functions are fully vectorized and do not mutate their inputs.
 """
@@ -66,6 +67,44 @@ def build_panel_df(
 
     panel = master.set_index(["date", "ticker"]).sort_index()
     return panel
+
+
+def build_wide_panel_df(
+    processed_dir: str = "data/processed",
+    drop_name: bool = True,
+) -> pd.DataFrame:
+    """
+    Build a wide panel DataFrame: index=date, columns=(feature, ticker).
+
+    Same underlying data as ``build_panel_df`` but reshaped so every
+    column from the long panel is preserved under a two-level column
+    MultiIndex ``(feature, ticker)``. Convenient for panel-wide
+    computations that align features across tickers on each date.
+
+    Parameters
+    ----------
+    processed_dir : str
+        Path to the folder containing processed CSVs. Forwarded to
+        ``build_master_df``.
+    drop_name : bool, default True
+        If True, drop the ``name`` column before reshaping.
+
+    Returns
+    -------
+    pd.DataFrame
+        Wide DataFrame indexed by date with a 2-level column MultiIndex
+        named ``("feature", "ticker")``.
+
+    Notes
+    -----
+    Reload from CSV with::
+
+        pd.read_csv(path, header=[0, 1], index_col=0, parse_dates=[0])
+    """
+    panel = build_panel_df(processed_dir, drop_name=drop_name)
+    wide = panel.unstack("ticker")
+    wide.columns = wide.columns.set_names(["feature", "ticker"])
+    return wide
 
 
 def pivot_panel_wide(

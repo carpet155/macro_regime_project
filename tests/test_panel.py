@@ -8,7 +8,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from macro_regime.panel import build_panel_df, pivot_panel_wide
+from macro_regime.panel import build_panel_df, build_wide_panel_df, pivot_panel_wide
 
 
 # ---------------------------------------------------------------------------
@@ -174,5 +174,46 @@ def test_roundtrip_csv_preserves_multiindex(panel, tmp_path):
     pd.testing.assert_frame_equal(
         reloaded.sort_index(),
         panel.sort_index(),
+        check_dtype=False,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Tests: build_wide_panel_df
+# ---------------------------------------------------------------------------
+
+def test_wide_panel_row_index_is_date(processed_dir):
+    wide = build_wide_panel_df(str(processed_dir))
+    assert wide.index.name == "date"
+    assert wide.index.is_monotonic_increasing
+
+
+def test_wide_panel_column_multiindex_names(processed_dir):
+    wide = build_wide_panel_df(str(processed_dir))
+    assert wide.columns.nlevels == 2
+    assert list(wide.columns.names) == ["feature", "ticker"]
+
+
+def test_wide_panel_shape(processed_dir, panel):
+    wide = build_wide_panel_df(str(processed_dir))
+    n_features = len(panel.columns)
+    assert wide.shape == (len(_DATES), n_features * len(_SECTORS))
+
+
+def test_wide_panel_roundtrip_csv(processed_dir, tmp_path):
+    wide = build_wide_panel_df(str(processed_dir))
+    out_path = tmp_path / "wide_panel.csv"
+    wide.to_csv(out_path, index=True)
+
+    reloaded = pd.read_csv(
+        out_path, header=[0, 1], index_col=0, parse_dates=[0]
+    )
+    reloaded.columns = reloaded.columns.set_names(["feature", "ticker"])
+
+    assert list(reloaded.columns.names) == ["feature", "ticker"]
+    assert reloaded.shape == wide.shape
+    pd.testing.assert_frame_equal(
+        reloaded.sort_index(),
+        wide.sort_index(),
         check_dtype=False,
     )
