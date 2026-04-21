@@ -76,3 +76,70 @@ def combine_macro_regime(
     df[out_col] = keys.map(_REGIME_MAP)
 
     return df
+
+
+
+### for issue 67
+def classify_vix_stress_regime(
+    vix: pd.Series,
+    *,
+    q: float = 0.75,
+    window: int | None = None,
+    min_periods: int | None = 1,
+) -> pd.Series:
+    """
+    Classify each row as "stress" or "calm" based on VIX level vs a
+    data-driven percentile threshold.
+
+    Threshold rule:
+        - If window is None (default): expanding quantile at level q.
+        - If window is an int: rolling quantile over that many periods.
+        - vix >= threshold → "stress"; vix < threshold → "calm".
+        - Ties at the threshold are classified as "stress".
+
+    NaN policy:
+        - NaN VIX values are excluded from threshold computation.
+        - Rows where VIX is NaN receive NaN in the output (not "stress"
+          or "calm").
+        - Rows where the expanding/rolling window has not yet accumulated
+          enough data (fewer than min_periods observations) also receive
+          NaN.
+
+    Parameters
+    ----------
+    vix : pd.Series
+        Time-indexed VIX level series (e.g. master_df["vix"]).
+    q : float
+        Quantile level for the stress threshold (default: 0.75).
+    window : int or None
+        Rolling window size. None means expanding (default: None).
+    min_periods : int or None
+        Minimum observations required to compute a threshold.
+        Default is 1 (expanding computes from the first valid value).
+
+    Returns
+    -------
+    pd.Series
+        String Series with values "stress", "calm", or NaN,
+        same index as vix. Output name is "vix_regime".
+
+    Notes
+    -----
+    Fully vectorized — no Python loops over rows.
+    Compatible with combine_macro_regime() in this module.
+    """
+    if window is None:
+        threshold = vix.expanding(min_periods=min_periods).quantile(q)
+    else:
+        threshold = vix.rolling(window=window, min_periods=min_periods).quantile(q)
+
+    regime = pd.Series(index=vix.index, dtype=object, name="vix_regime")
+    mask_nan = vix.isna() | threshold.isna()
+    mask_stress = vix >= threshold
+
+    regime = pd.Series("calm", index=vix.index, dtype=object, name="vix_regime")
+    regime[mask_stress] = "stress"
+    regime[mask_nan] = np.nan
+
+    return regime
+
