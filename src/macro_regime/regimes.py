@@ -17,7 +17,6 @@ All functions are fully vectorized and designed to compose cleanly.
 import numpy as np
 import pandas as pd
 
-
 # Expected component label sets (from issues #64 and #65)
 _INFLATION_LABELS = {"high", "low"}
 _RATE_LABELS = {"rising", "falling"}
@@ -79,7 +78,6 @@ def assign_inflation_regime(
     )
     out["inflation_regime"] = pd.Series(out["inflation_regime"], dtype="object")
 
-    # Forward/back fill NaNs introduced by missing CPI values
     out["inflation_regime"] = out["inflation_regime"].ffill().bfill()
 
     unique_vals = set(out["inflation_regime"].dropna().unique())
@@ -114,41 +112,6 @@ def classify_rate_regime(
 ) -> pd.Series:
     """
     Return a Series of "rising" | "falling" labels aligned to rates index.
-
-    Primary series
-    --------------
-    The canonical input is the Federal Funds Rate ("fedfunds") because it is
-    the direct policy rate and drives the broadest macro regime interpretation.
-    dgs2 or dgs10 can be substituted by passing a different Series.
-
-    Rising / falling rule
-    ---------------------
-    method="diff" (default)
-        sign(rates.diff()) determines direction.
-        - diff > 0  -> "rising"
-        - diff < 0  -> "falling"
-        - diff == 0 -> forward-filled from the previous label.
-        - First row has no prior value; back-filled from next valid label.
-
-    method="rolling_slope"
-        sign(rolling mean of diff over window periods).
-        Smooths out day-to-day noise. window defaults to 21 trading days.
-
-    Parameters
-    ----------
-    rates : pd.Series
-        Numeric interest rate time-series.
-    method : str
-        "diff" or "rolling_slope".
-    window : int
-        Rolling window, only used for rolling_slope.
-    primary_series : str
-        Label used in logs/errors.
-
-    Returns
-    -------
-    pd.Series
-        Series of "rising"/"falling" with same index as rates. No NaNs.
     """
     if not pd.api.types.is_numeric_dtype(rates):
         raise ValueError(
@@ -169,8 +132,6 @@ def classify_rate_regime(
     regime = pd.Series(index=rates.index, dtype="object")
     regime[delta > 0] = "rising"
     regime[delta < 0] = "falling"
-
-    # Fill ties and warm-up rows
     regime = regime.ffill().bfill()
 
     remaining_nans = regime.isna().sum()
@@ -195,22 +156,6 @@ def assign_rate_regime(
 ) -> pd.DataFrame:
     """
     Convenience wrapper: attach rate_regime column to the master DataFrame.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Master DataFrame with a rate column.
-    rate_col : str
-        Column to use for the rate series.
-    method : str
-        Passed to classify_rate_regime.
-    window : int
-        Passed to classify_rate_regime.
-
-    Returns
-    -------
-    pd.DataFrame
-        Copy with new "rate_regime" column.
     """
     if rate_col not in df.columns:
         raise ValueError(
@@ -226,8 +171,7 @@ def assign_rate_regime(
     )
     return out
 
-
-def combine_macro_regime(
+  def combine_macro_regime(
     df: pd.DataFrame,
     *,
     inflation_col: str = "inflation_regime",
@@ -244,8 +188,8 @@ def combine_macro_regime(
         "Low Inflation / Falling Rates"
 
     Component label sets (case-insensitive, whitespace-stripped):
-        inflation_regime : "high" | "low"
-        rate_regime      : "rising" | "falling"
+        inflation_regime : "high" | "low"    (from issue #64)
+        rate_regime      : "rising" | "falling" (from issue #65)
 
     NaN policy:
         If either component is NaN or not in the allowed label set,
@@ -256,16 +200,21 @@ def combine_macro_regime(
     df : pd.DataFrame
         Must contain columns named by inflation_col and rate_col.
     inflation_col : str
-        Column name for inflation regime.
+        Column name for inflation regime (default: "inflation_regime").
     rate_col : str
-        Column name for rate regime.
+        Column name for rate regime (default: "rate_regime").
     out_col : str
-        Name of the new output column.
+        Name of the new output column (default: "macro_regime").
 
     Returns
     -------
     pd.DataFrame
         Copy of df with out_col added. Does not modify the input.
+    
+    Notes
+    -----
+    Implementation is fully vectorized — no Python loops over rows.
+    Does not depend on VIX / stress regime (issue #67).
     """
     if inflation_col not in df.columns:
         raise ValueError(
