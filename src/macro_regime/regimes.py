@@ -130,7 +130,7 @@ def classify_rate_regime(
     regime = pd.Series(index=rates.index, dtype=object)
     regime[delta > 0] = "rising"
     regime[delta < 0] = "falling"
-    # delta == 0 (unchanged rate): carry last known direction; leading all-flat
+   # delta == 0 (unchanged rate): carry last known direction; leading all-flat
     # series has no diff signal — default remaining NaNs to "rising".
     regime = regime.ffill().bfill()
     regime = regime.fillna("rising")
@@ -172,8 +172,7 @@ def assign_rate_regime(
     )
     return out
 
-
-def combine_macro_regime(
+  def combine_macro_regime(
     df: pd.DataFrame,
     *,
     inflation_col: str = "inflation_regime",
