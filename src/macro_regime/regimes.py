@@ -71,12 +71,10 @@ def assign_inflation_regime(
     out = df.copy()
     threshold = out[inflation_col].median() if method == "median" else fixed_threshold
 
-    out["inflation_regime"] = np.where(
-        out[inflation_col] > threshold,
-        "high",
-        np.where(out[inflation_col].isna(), np.nan, "low"),
-    )
-    out["inflation_regime"] = pd.Series(out["inflation_regime"], dtype="object")
+    col = out[inflation_col]
+    out["inflation_regime"] = pd.Series(np.nan, index=out.index, dtype=object)
+    out.loc[col > threshold, "inflation_regime"] = "high"
+    out.loc[col.notna() & (col <= threshold), "inflation_regime"] = "low"
 
     out["inflation_regime"] = out["inflation_regime"].ffill().bfill()
 
@@ -129,10 +127,13 @@ def classify_rate_regime(
     else:
         delta = rates.diff().rolling(window=window, min_periods=1).mean()
 
-    regime = pd.Series(index=rates.index, dtype="object")
+    regime = pd.Series(index=rates.index, dtype=object)
     regime[delta > 0] = "rising"
     regime[delta < 0] = "falling"
+    # delta == 0 (unchanged rate): carry last known direction; leading all-flat
+    # series has no diff signal — default remaining NaNs to "rising".
     regime = regime.ffill().bfill()
+    regime = regime.fillna("rising")
 
     remaining_nans = regime.isna().sum()
     if remaining_nans > 0:
@@ -171,7 +172,8 @@ def assign_rate_regime(
     )
     return out
 
-  def combine_macro_regime(
+
+def combine_macro_regime(
     df: pd.DataFrame,
     *,
     inflation_col: str = "inflation_regime",
