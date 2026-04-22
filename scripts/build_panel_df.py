@@ -2,9 +2,9 @@ import sys
 import os
 
 # Make sure the src folder is on the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from src.macro_regime.panel import build_wide_panel_df
+from macro_regime.panel import build_wide_panel_df
 
 def main():
     processed_dir = os.path.join("data", "processed")
