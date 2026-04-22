@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from macro_regime.build import build_master_df
+from .build import build_master_df
 
 
 def build_panel_df(
