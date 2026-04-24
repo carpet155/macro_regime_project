@@ -46,7 +46,9 @@ python -m pip install -e ".[dev]"
 - [VIX](data/raw/VIXCLS.csv): https://fred.stlouisfed.org/series/VIXCLS
 - [S&P500](data/raw/SP500.csv): https://finance.yahoo.com/quote/%5EGSPC/history/?period1=-1325583000&period2=1773804185
 ## Data Sources NOTE 
-- We need to focus on writing and creating python functions to retrieve the financial data. We DO NOT need to seek raw data from outside sources.
+- We focus on writing and creating python functions to retrieve the financial data. We DO NOT need to seek raw data from outside sources.
+- **FRED scripts require a FRED_API_KEY environment variable.**
+Link: https://fred.stlouisfed.org/docs/api/fred/v2/api_key.html
 
 ## Data
 
@@ -67,5 +69,3 @@ python scripts/ingest_vix.py
 python scripts/ingest_spx.py
 
 python scripts/ingest_sectors.py
-
-Note: FRED scripts require a FRED_API_KEY environment variable.
