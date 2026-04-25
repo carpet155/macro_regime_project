@@ -172,7 +172,7 @@ def assign_rate_regime(
     )
     return out
 
-  def combine_macro_regime(
+def combine_macro_regime(
     df: pd.DataFrame,
     *,
     inflation_col: str = "inflation_regime",
