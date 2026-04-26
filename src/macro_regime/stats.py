@@ -1,3 +1,9 @@
+"""
+Statistical testing framework.
+Contains functions for running hypothesis tests (e.g., T-tests, Kolmogorov-Smirnov) 
+on sector performance distributions.
+"""
+
 import pandas as pd
 import numpy as np
 from scipy import stats
