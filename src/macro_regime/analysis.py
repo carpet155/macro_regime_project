@@ -1,3 +1,9 @@
+"""
+Core analysis logic for the macro regime project.
+Contains functions for calculating sector returns, correlations, and performance 
+metrics across different macroeconomic environments.
+"""
+
 import numpy as np
 import pandas as pd
 
