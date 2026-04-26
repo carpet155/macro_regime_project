@@ -1,3 +1,9 @@
+"""
+Data assembly module.
+Handles the merging of raw macroeconomic indicators and sector data into 
+final, analytical datasets.
+"""
+
 import pandas as pd
 import os
 
