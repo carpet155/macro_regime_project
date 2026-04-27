@@ -1,3 +1,8 @@
+"""
+Temporary workspace for exploratory code and experimental functions.
+Not intended for production pipeline use.
+"""
+
 from macro_regime.analysis import analyze_regime_persistence
 import pandas as pd
 
