@@ -10,6 +10,7 @@ import numpy as np
 import pytest
 
 from src.macro_regime.regimes import (
+    assign_all_regimes,
     assign_inflation_regime,
     classify_rate_regime,
     assign_rate_regime,
@@ -168,3 +169,27 @@ def test_assign_rate_regime_does_not_modify_input(sample_df):
     original_cols = list(sample_df.columns)
     assign_rate_regime(sample_df)
     assert list(sample_df.columns) == original_cols
+
+
+def test_assign_all_regimes_adds_expected_columns():
+    df = pd.DataFrame(
+        {
+            "date": pd.date_range("2020-01-01", periods=6),
+            "ticker": ["XLK"] * 6,
+            "sector_return": [0.01, 0.02, -0.01, 0.03, 0.00, 0.01],
+            "cpi": [1, 2, 3, 4, 5, 6],
+            "fedfunds": [1.0, 1.1, 1.2, 1.1, 1.0, 1.1],
+            "vix": [10, 11, 12, None, 14, 15],
+        }
+    )
+
+    result = assign_all_regimes(df)
+    regime_cols = [
+        "inflation_regime",
+        "rate_regime",
+        "macro_regime",
+        "vix_regime",
+    ]
+
+    assert set(regime_cols).issubset(result.columns)
+    assert result[regime_cols].isna().sum().sum() == 0
