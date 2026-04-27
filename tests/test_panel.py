@@ -1,12 +1,8 @@
-import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 
 from macro_regime.panel import build_panel_df, build_wide_panel_df, pivot_panel_wide
 
