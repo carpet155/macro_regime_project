@@ -7,6 +7,9 @@ import pandas as pd
 
 from macro_regime.config import PROCESSED_DIR, RAW_DIR
 
+MASTER_DF_FILENAME = "master_df.csv"
+MASTER_DF_REQUIRED_COLUMNS = {"date", "ticker", "sector_return"}
+
 
 def raw_path(filename: str) -> Path:
     """Return path to a file in data/raw."""
@@ -58,3 +61,24 @@ def load_raw_csv(filename: str, **kwargs) -> pd.DataFrame:
 def load_processed_csv(filename: str, **kwargs) -> pd.DataFrame:
     """Load from data/processed."""
     return load_csv(processed_path(filename), **kwargs)
+
+
+def load_master_df(processed_dir: str | Path = "data/processed") -> pd.DataFrame:
+    """Load and validate the canonical long-form master DataFrame."""
+    path = Path(processed_dir) / MASTER_DF_FILENAME
+    df = load_csv(path, parse_dates=["date"])
+
+    missing = sorted(MASTER_DF_REQUIRED_COLUMNS.difference(df.columns))
+    if missing:
+        raise ValueError(
+            f"{path} is missing required column(s): {missing}. "
+            f"Expected at least: {sorted(MASTER_DF_REQUIRED_COLUMNS)}"
+        )
+
+    duplicate_count = df.duplicated(subset=["date", "ticker"]).sum()
+    if duplicate_count:
+        raise ValueError(
+            f"{path} contains {duplicate_count} duplicate (date, ticker) rows."
+        )
+
+    return df
