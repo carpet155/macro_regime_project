@@ -18,7 +18,7 @@ from macro_regime.clean import (
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_VIX_PATH = ROOT / "data" / "raw" / "VIXCLS.csv"
-PROCESSED_VIX_PATH = ROOT / "data" / "processed" / "vix_processed.csv"
+PROCESSED_VIX_PATH = ROOT / "data" / "processed" / "features" / "vix_processed.csv"
 
 
 def _rename_to_canonical_columns(df: pd.DataFrame) -> pd.DataFrame:

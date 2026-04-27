@@ -19,7 +19,7 @@ from macro_regime.clean import (
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_SPX_PATH = ROOT / "data" / "raw" / "SP500.csv"
-PROCESSED_SPX_PATH = ROOT / "data" / "processed" / "spx_processed.csv"
+PROCESSED_SPX_PATH = ROOT / "data" / "processed" / "features" / "spx_processed.csv"
 
 
 def _rename_to_canonical_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -54,7 +54,7 @@ def process_spx(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def save_processed_spx(df: pd.DataFrame) -> Path:
-    """Write ``data/processed/spx_processed.csv`` with ``date``, ``price``, ``return``."""
+    """Write ``data/processed/features/spx_processed.csv`` with ``date``, ``price``, ``return``."""
     PROCESSED_SPX_PATH.parent.mkdir(parents=True, exist_ok=True)
     out = df[["date", "price", "return"]].copy()
     out.to_csv(PROCESSED_SPX_PATH, index=False)

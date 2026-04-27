@@ -19,8 +19,10 @@ from macro_regime.clean import (
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_SECTORS_PATH = ROOT / "data" / "raw" / "sector_prices.csv"
-PROCESSED_SECTORS_PATH = ROOT / "data" / "processed" / "sectors_processed.csv"
-PROCESSED_RETURNS_PATH = ROOT / "data" / "processed" / "sector_returns_processed.csv"
+PROCESSED_SECTORS_PATH = ROOT / "data" / "processed" / "features" / "sectors_processed.csv"
+PROCESSED_RETURNS_PATH = (
+    ROOT / "data" / "processed" / "features" / "sector_returns_processed.csv"
+)
 
 
 def _rename_to_canonical_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -74,7 +76,7 @@ def process_sectors(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def save_processed_sectors(df: pd.DataFrame) -> tuple[Path, Path]:
-    """Write ``sectors_processed.csv`` and a slim ``sector_returns_processed.csv``."""
+    """Write ``sectors_processed.csv`` and a slim ``sector_returns_processed.csv`` to processed/features."""
     PROCESSED_SECTORS_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     base_cols = ["date", "ticker", "price", "return"]
