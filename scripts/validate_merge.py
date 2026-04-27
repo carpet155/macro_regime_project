@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 # ── Config ───────────────────────────────────────────────────────────────────
 
-MASTER_PATH = Path("data/processed/master_df.csv")
+MASTER_PATH = Path("data/processed/base/master_df.csv")
 
 # Columns that must NEVER have NaNs after merge — hard fail if they do
 CRITICAL_COLUMNS = ["cpi", "fedfunds", "vix", "spx_price"]

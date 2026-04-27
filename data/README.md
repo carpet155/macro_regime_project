@@ -41,7 +41,7 @@ Each script:
 2. Normalizes column names (e.g., DATE → date)  
 3. Applies shared cleaning functions from clean.py  
 4. Validates structure (dates, duplicates, missing values)  
-5. Saves a processed dataset to `data/processed/`  
+5. Saves a processed dataset to `data/processed/features/`  
 
 ## Key Transformations
 
@@ -75,12 +75,13 @@ Running the processing scripts produces:
 
 
 data/processed/
-├── inflation_processed.csv
-├── sectors_processed.csv
-├── sector_returns_processed.csv
-├── spx_processed.csv
-├── treasury_processed.csv
-└── vix_processed.csv
+└── features/
+    ├── inflation_processed.csv
+    ├── sectors_processed.csv
+    ├── sector_returns_processed.csv
+    ├── spx_processed.csv
+    ├── treasury_processed.csv
+    └── vix_processed.csv
 
 
 ## Running the Full Pipeline

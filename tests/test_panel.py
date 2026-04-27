@@ -32,11 +32,12 @@ _SECTORS = [
 
 
 def _write_processed_csvs(processed_dir: Path) -> None:
-    """Write a synthetic set of processed CSVs into processed_dir."""
-    processed_dir.mkdir(parents=True, exist_ok=True)
+    """Write a synthetic set of processed feature CSVs into processed_dir/features."""
+    features_dir = processed_dir / "features"
+    features_dir.mkdir(parents=True, exist_ok=True)
 
     pd.DataFrame({"date": _DATES, "value": [258.0, 258.1, 258.2]}).to_csv(
-        processed_dir / "inflation_processed.csv", index=False
+        features_dir / "inflation_processed.csv", index=False
     )
 
     pd.DataFrame({
@@ -44,17 +45,17 @@ def _write_processed_csvs(processed_dir: Path) -> None:
         "dgs2":     [1.58, 1.55, 1.52],
         "dgs10":    [1.88, 1.85, 1.81],
         "fedfunds": [1.55, 1.55, 1.55],
-    }).to_csv(processed_dir / "treasury_processed.csv", index=False)
+    }).to_csv(features_dir / "treasury_processed.csv", index=False)
 
     pd.DataFrame({"date": _DATES, "vix": [12.47, 12.97, 13.85]}).to_csv(
-        processed_dir / "vix_processed.csv", index=False
+        features_dir / "vix_processed.csv", index=False
     )
 
     pd.DataFrame({
         "date":   _DATES,
         "price":  [3257.85, 3234.85, 3246.28],
         "return": [np.nan, -0.007059, 0.003533],
-    }).to_csv(processed_dir / "spx_processed.csv", index=False)
+    }).to_csv(features_dir / "spx_processed.csv", index=False)
 
     rows = []
     for ticker, name in _SECTORS:
@@ -68,15 +69,16 @@ def _write_processed_csvs(processed_dir: Path) -> None:
                 "name":   name,
             })
     pd.DataFrame(rows).to_csv(
-        processed_dir / "sectors_processed.csv", index=False
+        features_dir / "sectors_processed.csv", index=False
     )
 
 
 @pytest.fixture
 def processed_dir(tmp_path: Path) -> Path:
     """A tmp processed_dir populated with synthetic CSVs."""
-    _write_processed_csvs(tmp_path)
-    return tmp_path
+    processed_root = tmp_path / "processed"
+    _write_processed_csvs(processed_root)
+    return processed_root
 
 
 @pytest.fixture

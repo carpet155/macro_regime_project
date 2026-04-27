@@ -17,7 +17,9 @@ from macro_regime.clean import (
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_INFLATION_PATH = ROOT / "data" / "raw" / "CPIAUCSL.csv"
-PROCESSED_INFLATION_PATH = ROOT / "data" / "processed" / "inflation_processed.csv"
+PROCESSED_INFLATION_PATH = (
+    ROOT / "data" / "processed" / "features" / "inflation_processed.csv"
+)
 
 
 def _rename_to_canonical_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -49,7 +51,7 @@ def process_inflation(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def save_processed_inflation(df: pd.DataFrame) -> Path:
-    """Write processed inflation to ``data/processed/inflation_processed.csv``."""
+    """Write processed inflation to ``data/processed/features/inflation_processed.csv``."""
     PROCESSED_INFLATION_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(PROCESSED_INFLATION_PATH, index=False)
     return PROCESSED_INFLATION_PATH
