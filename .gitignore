@@ -14,3 +14,6 @@ build/
 # Environment
 venv/
 .env
+
+# Audit report for pipeline standardization
+docs/analysis_issues_audit_report.md

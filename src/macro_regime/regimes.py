@@ -296,3 +296,45 @@ def classify_vix_stress_regime(
     regime[mask_nan] = np.nan
 
     return regime
+
+
+def assign_all_regimes(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Assign all canonical regime columns used by downstream analysis.
+
+    Adds ``inflation_regime``, ``rate_regime``, ``macro_regime``, and
+    ``vix_regime`` using the existing regime helpers in this module.
+    """
+    required = {"date", "ticker", "cpi", "fedfunds", "vix"}
+    missing = sorted(required.difference(df.columns))
+    if missing:
+        raise ValueError(f"Missing required column(s) for regime assignment: {missing}")
+
+    duplicate_count = df.duplicated(subset=["date", "ticker"]).sum()
+    if duplicate_count:
+        raise ValueError(f"Found {duplicate_count} duplicate (date, ticker) rows.")
+
+    out = df.copy()
+    out["date"] = pd.to_datetime(out["date"])
+    out = out.sort_values(["date", "ticker"]).reset_index(drop=True)
+
+    out = assign_inflation_regime(out)
+    out = assign_rate_regime(out)
+    out = combine_macro_regime(out)
+    out["vix_regime"] = classify_vix_stress_regime(out["vix"]).ffill().bfill()
+
+    regime_cols = [
+        "inflation_regime",
+        "rate_regime",
+        "macro_regime",
+        "vix_regime",
+    ]
+    missing_labels = out[regime_cols].isna().sum()
+    missing_labels = missing_labels[missing_labels > 0]
+    if not missing_labels.empty:
+        raise ValueError(
+            "Regime assignment produced missing labels: "
+            f"{missing_labels.to_dict()}"
+        )
+
+    return out
