@@ -1,12 +1,8 @@
 import pandas as pd
 import numpy as np
 import pytest
-import sys
-import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from src.macro_regime.regimes import combine_macro_regime
+from macro_regime.regimes import combine_macro_regime
 
 
 def make_df(inflation, rate):

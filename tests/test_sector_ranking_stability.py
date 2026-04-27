@@ -1,9 +1,4 @@
-import sys
-from pathlib import Path
-
 import pandas as pd
-
-sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from macro_regime.analysis import (
     rank_sector_returns_within_regimes,

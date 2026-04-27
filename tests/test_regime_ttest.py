@@ -1,10 +1,5 @@
-import sys
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
-
-sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from macro_regime.stats import ttest_sector_returns_between_regimes
 
