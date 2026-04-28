@@ -28,7 +28,12 @@ def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
 
     def load(filename: str) -> pd.DataFrame:
         path = features_dir / filename
-        return pd.read_csv(path, parse_dates=["date"])
+        if not path.is_file():
+            raise FileNotFoundError(f"Missing processed file: {path}")
+        try:
+            return pd.read_csv(path, parse_dates=["date"])
+        except Exception as e:
+            raise RuntimeError(f"Failed to load {filename}: {e}") from e
 
     # Load all datasets
     inflation = load("inflation_processed.csv").rename(columns={"value": "cpi"})

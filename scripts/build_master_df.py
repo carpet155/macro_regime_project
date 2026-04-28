@@ -13,15 +13,29 @@ def main():
     output_path = processed_dir / "base" / "master_df.csv"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
+    if not os.path.isdir(processed_dir):
+        raise FileNotFoundError(
+            f"Processed data directory does not exist: {processed_dir}. "
+            "Run the upstream processing scripts first (e.g. scripts/run_processing.py)."
+        )
+
     print("Building master DataFrame...")
-    master = build_master_df(str(processed_dir))
+    try:
+        master = build_master_df(str(processed_dir))
+    except FileNotFoundError:
+        raise
+    except Exception as e:
+        raise RuntimeError(f"Failed to build master DataFrame: {e}") from e
 
     print(f"Shape: {master.shape}")
     print(f"Date range: {master['date'].min().date()} -> {master['date'].max().date()}")
     print(f"Unique tickers: {master['ticker'].nunique()}")
     print(f"Missing values:\n{master.isnull().sum()}")
 
-    master.to_csv(output_path, index=False)
+    try:
+        master.to_csv(output_path, index=False)
+    except Exception as e:
+        raise RuntimeError(f"Failed to write {output_path}: {e}") from e
     print(f"\nSaved to: {output_path.as_posix()}")
 
 if __name__ == "__main__":
