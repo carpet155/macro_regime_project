@@ -16,4 +16,7 @@ venv/
 .env
 
 # Audit report for pipeline standardization
-docs/analysis_issues_audit_report.md
+docs/analysis_issues_audit_report.md.vscode/
+__pycache__/
+.DS_Store
+data/processed/base/master_df.csv
