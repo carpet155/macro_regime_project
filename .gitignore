@@ -14,3 +14,5 @@ build/
 # Environment
 venv/
 .env
+.vscode/
+__pycache__/
