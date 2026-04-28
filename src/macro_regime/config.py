@@ -15,6 +15,12 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 
+# Processed data subdirectories (source-of-truth structure)
+PROCESSED_BASE_DIR = PROCESSED_DIR / "base"
+PROCESSED_FEATURES_DIR = PROCESSED_DIR / "features"
+PROCESSED_ANALYSIS_DIR = PROCESSED_DIR / "analysis"
+PROCESSED_FINAL_DIR = PROCESSED_DIR / "final"
+
 DEFAULT_START_DATE = "2000-01-01"
 DEFAULT_END_DATE = None  # use most recent available date
 

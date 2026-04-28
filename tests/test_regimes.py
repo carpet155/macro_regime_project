@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import pytest
 
-from src.macro_regime.regimes import (
+from macro_regime.regimes import (
     assign_all_regimes,
     assign_inflation_regime,
     classify_rate_regime,

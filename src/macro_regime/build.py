@@ -5,7 +5,7 @@ final, analytical datasets.
 """
 
 import pandas as pd
-import os
+from pathlib import Path
 
 
 def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
@@ -23,9 +23,12 @@ def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
         Master DataFrame with one row per (date, ticker) containing
         both sector-level and macroeconomic columns.
     """
-    def load(filename):
-        path = os.path.join(processed_dir, filename)
-        if not os.path.isfile(path):
+    processed_dir = Path(processed_dir)
+    features_dir = processed_dir if processed_dir.name == "features" else (processed_dir / "features")
+
+    def load(filename: str) -> pd.DataFrame:
+        path = features_dir / filename
+        if not path.is_file():
             raise FileNotFoundError(f"Missing processed file: {path}")
         try:
             return pd.read_csv(path, parse_dates=["date"])

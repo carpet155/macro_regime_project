@@ -1,7 +1,7 @@
 """
 Build pivot tables of sector performance by macroeconomic regime.
 
-Reads the canonical long-form master DataFrame from data/processed/master_df.csv,
+Reads the canonical long-form master DataFrame from data/processed/base/master_df.csv,
 assigns regimes, and writes regime x ticker mean-return pivots.
 """
 
@@ -20,6 +20,7 @@ from macro_regime.io import load_master_df
 from macro_regime.regimes import assign_all_regimes
 
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
+ANALYSIS_DIR = PROCESSED_DIR / "analysis"
 REGIME_COLUMNS = {
     "inflation": "inflation_regime",
     "rate": "rate_regime",
@@ -53,8 +54,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--out-dir",
-        default=str(PROCESSED_DIR),
-        help="Directory to write pivot CSVs to (default: data/processed/)",
+        default=str(ANALYSIS_DIR),
+        help="Directory to write pivot CSVs to (default: data/processed/analysis/)",
     )
     args = parser.parse_args(argv)
 

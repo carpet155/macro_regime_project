@@ -20,7 +20,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DGS2_PATH = ROOT / "data" / "raw" / "DGS2.csv"
 RAW_DGS10_PATH = ROOT / "data" / "raw" / "DGS10.csv"
 RAW_FEDFUNDS_PATH = ROOT / "data" / "raw" / "FEDFUNDS.csv"
-PROCESSED_TREASURY_PATH = ROOT / "data" / "processed" / "treasury_processed.csv"
+PROCESSED_TREASURY_PATH = (
+    ROOT / "data" / "processed" / "features" / "treasury_processed.csv"
+)
 
 
 def _rename_to_canonical_columns(df: pd.DataFrame, value_name: str) -> pd.DataFrame:

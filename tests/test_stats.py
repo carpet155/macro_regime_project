@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 import numpy as np
-from src.macro_regime.stats import compare_sector_volatility_distributions_ks
+from macro_regime.stats import compare_sector_volatility_distributions_ks
 
 def test_compare_volatility_returns_nans_when_min_n_not_met():
     # Create a tiny dataframe with only 5 rows

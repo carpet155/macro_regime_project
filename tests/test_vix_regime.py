@@ -6,7 +6,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.macro_regime.regimes import classify_vix_stress_regime
+from macro_regime.regimes import classify_vix_stress_regime
 
 
 # ── synthetic stress/calm split ────────────────────────────────────────────
