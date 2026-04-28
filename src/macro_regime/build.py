@@ -1,7 +1,18 @@
 """
-Data assembly module.
-Handles the merging of raw macroeconomic indicators and sector data into 
-final, analytical datasets.
+Data Assembly Module.
+Sits in the middle of the pipeline (after cleaning, before analysis) to merge independent sector and macroeconomic datasets into a unified structure.
+
+Key Responsibilities:
+- Loads individual processed CSV files from the data/processed directory.
+- Merges macroeconomic indicators (CPI, Treasury, VIX, SPX).
+- Joins sector ETF data onto the macro dataset aligned by date.
+
+Key Functions:
+- `build_master_df`: Merges all cleaned data into a single master dataset.
+
+Inputs/Outputs:
+- Consumes: Local CSV file paths (strings).
+- Returns: pd.DataFrame (the unified master dataset).
 """
 
 import pandas as pd
