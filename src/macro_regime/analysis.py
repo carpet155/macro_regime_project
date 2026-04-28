@@ -1,9 +1,22 @@
 """
-src/macro_regime/analysis.py
+Core Analysis Module.
+Fits at the end of the pipeline to calculate performance metrics, regime persistence, and sector volatility across different macroeconomic environments.
 
-Cross-regime analysis utilities.
+Key Responsibilities:
+- Ranks sector returns within specific regimes.
+- Analyzes the stability and persistence of macro regimes over time.
+- Computes average sector volatility grouped by regime.
+
+Key Functions:
+- `rank_sector_returns_within_regimes`: Ranks cross-sectional sector performance.
+- `sector_ranking_stability_from_raw`: Computes Spearman correlation of sector ranks.
+- `analyze_regime_persistence`: Calculates duration and frequency of regime segments.
+- `average_sector_volatility_by_regime`: Aggregates volatility metrics per regime.
+
+Inputs/Outputs:
+- Consumes: pd.DataFrame (master data or segment summaries).
+- Returns: pd.DataFrame (aggregated summaries, rankings, or persistence metrics).
 """
-
 from __future__ import annotations
 
 from typing import Literal
