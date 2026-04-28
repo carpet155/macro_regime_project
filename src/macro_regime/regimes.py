@@ -1,17 +1,22 @@
 """
-src/macro_regime/regimes.py
+Macroeconomic Regime Classification Module.
+Sits post-build to translate continuous economic indicators (inflation, rates, VIX) into discrete categorical regimes.
 
-Regime classification functions for macro analysis.
+Key Responsibilities:
+- Classifies high/low inflation states based on sample medians or fixed thresholds.
+- Classifies rising/falling interest rate environments using rolling differences.
+- Combines independent components into a 4-quadrant composite macro regime.
+- Classifies market stress periods using VIX percentiles.
 
-Functions
----------
-assign_inflation_regime : high / low inflation label per row  (issue #64)
-classify_rate_regime    : rising / falling rate label per row (issue #65)
-assign_rate_regime      : convenience wrapper that attaches rate_regime to df
-combine_macro_regime    : combine inflation + rate regimes into 4 macro labels (issue #66)
-classify_vix_stress_regime : classify VIX as stress/calm using a quantile threshold (issue #67)
+Key Functions:
+- `assign_inflation_regime`: Maps CPI to "high" or "low" states.
+- `classify_rate_regime`: Maps Fed Funds/Treasuries to "rising" or "falling".
+- `combine_macro_regime`: Merges inflation and rate states into composite labels.
+- `classify_vix_stress_regime`: Maps VIX data to "stress" or "calm".
 
-All functions are fully vectorized and designed to compose cleanly.
+Inputs/Outputs:
+- Consumes: pd.DataFrame or pd.Series containing continuous economic data.
+- Returns: pd.DataFrame or pd.Series with appended categorical regime labels.
 """
 
 import numpy as np
