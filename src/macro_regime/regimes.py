@@ -13,7 +13,13 @@ classify_vix_stress_regime : classify VIX as stress/calm using a quantile thresh
 
 All functions are fully vectorized and designed to compose cleanly.
 """
-
+from config import (
+    INFLATION_REGIME_METHOD, 
+    INFLATION_FIXED_THRESHOLD,
+    RATE_REGIME_METHOD,
+    RATE_CHANGE_WINDOW,
+    VIX_STRESS_PERCENTILE
+)
 import numpy as np
 import pandas as pd
 
@@ -33,8 +39,8 @@ _REGIME_MAP = {
 def assign_inflation_regime(
     df: pd.DataFrame,
     inflation_col: str = "cpi",
-    method: str = "median",
-    fixed_threshold: float = None,
+    method: str = INFLATION_REGIME_METHOD,
+    fixed_threshold: float = INFLATION_FIXED_THRESHOLD,
 ) -> pd.DataFrame:
     """
     Assign a high/low inflation regime to each row in the master DataFrame.
@@ -104,8 +110,8 @@ def assign_inflation_regime(
 def classify_rate_regime(
     rates: pd.Series,
     *,
-    method: str = "diff",
-    window: int = 21,
+    method: str = RATE_REGIME_METHOD,
+    window: int = RATE_CHANGE_WINDOW,
     primary_series: str = "fedfunds",
 ) -> pd.Series:
     """
@@ -152,8 +158,8 @@ def classify_rate_regime(
 def assign_rate_regime(
     df: pd.DataFrame,
     rate_col: str = "fedfunds",
-    method: str = "diff",
-    window: int = 21,
+    method: str = RATE_REGIME_METHOD,
+    window: int = RATE_CHANGE_WINDOW,
 ) -> pd.DataFrame:
     """
     Convenience wrapper: attach rate_regime column to the master DataFrame.
@@ -246,7 +252,7 @@ def combine_macro_regime(
 def classify_vix_stress_regime(
     vix: pd.Series,
     *,
-    q: float = 0.75,
+    q: float = VIX_STRESS_PERCENTILE,
     window: int | None = None,
     min_periods: int | None = 1,
 ) -> pd.Series:
