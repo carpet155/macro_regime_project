@@ -1,6 +1,16 @@
 # Macro Regime Project
 
-Regime-based macroeconomic analysis of U.S. sector ETF returns. The pipeline ingests macro indicators (VIX, Treasury yields, inflation, Fed Funds rate) and sector ETF prices, classifies market regimes, and analyzes how sector returns behave across different macro environments.
+## Overview
+
+This project analyzes how different parts of the U.S. stock market (sector ETFs) perform under different macroeconomic conditions.
+
+We classify the market into “regimes” (e.g., high volatility, rising rates, inflationary periods) using macro indicators like:
+- VIX (volatility)
+- Treasury yields
+- Inflation
+- Federal Funds rate
+
+Then, we study how sector returns behave in each regime.
 
 ## Project Structure
 
