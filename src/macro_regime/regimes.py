@@ -22,7 +22,7 @@ import logging
 
 # Initialize logger for this module
 logger = logging.getLogger(__name__)
-from config import (
+from macro_regime.config import (
     INFLATION_REGIME_METHOD, 
     INFLATION_FIXED_THRESHOLD,
     RATE_REGIME_METHOD,
