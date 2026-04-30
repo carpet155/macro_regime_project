@@ -83,6 +83,10 @@ def test_sector_ranking_stability_from_raw():
         index=["A", "B"],
     )
 
+    expected_rankings.index.name = "regime"
+
+
+
     pd.testing.assert_frame_equal(rankings, expected_rankings)
     assert stability.loc["A", "A"] == 1.0
     assert stability.loc["B", "B"] == 1.0

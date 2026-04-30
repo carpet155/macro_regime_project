@@ -87,6 +87,7 @@ def main() -> None:
     print("[3/3] Pipeline complete")
     print("  Raw files:       data/raw/")
     print("  Processed files: data/processed/")
+    print("  Wrote data/processed/base/master_df.csv")
 
 
 if __name__ == "__main__":
