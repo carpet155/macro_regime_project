@@ -1,16 +1,20 @@
 """
-src/macro_regime/panel.py
+Panel Data Formatting Module.
+Restructures the flat master DataFrame into advanced multi-index structures for cross-sectional and panel-style analysis.
 
-Restructure the master DataFrame into a panel indexed by (date, ticker)
-for panel-style analysis (issue #72).
+Key Responsibilities:
+- Converts flat time-series data into a (date, ticker) MultiIndex format.
+- Reshapes data into wide formats for easier correlation and modeling.
+- Broadcasts macroeconomic variables across individual sector observations.
 
-Functions
----------
-build_panel_df      : wrap build_master_df and set a (date, ticker) MultiIndex
-build_wide_panel_df : build wide panel with index=date and (feature, ticker) columns
-pivot_panel_wide    : pivot a panel column to wide format (index=date, cols=ticker)
+Key Functions:
+- `build_panel_df`: Wraps `build_master_df` to set a (date, ticker) MultiIndex.
+- `build_wide_panel_df`: Reshapes panel data to feature-ticker column MultiIndex.
+- `pivot_panel_wide`: Pivots a specific column (e.g., returns) into a wide matrix.
 
-All functions are fully vectorized and do not mutate their inputs.
+Inputs/Outputs:
+- Consumes: Processed directory paths or pd.DataFrame.
+- Returns: pd.DataFrame (with MultiIndex rows or columns).
 """
 
 from __future__ import annotations
