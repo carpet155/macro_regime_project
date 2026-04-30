@@ -2,6 +2,8 @@
 
 Use this guide when you want to install the project and start exploring quickly. You do **not** need to run the full pipeline for this quickstart.
 
+## Requires Python 3.10 or newer. 
+
 ## Project Setup
 
 ```bash
