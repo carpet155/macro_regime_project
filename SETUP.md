@@ -65,7 +65,7 @@ If not installed, download it from [python.org/downloads](https://www.python.org
 
 ## 3. Workflow
 
-Moving forward, each feature/change we work on will be its own branch and I’ll explain what that means. For now, I have deleted all the old branches before today, sorry.
+Moving forward, each feature/change we work on will be its own branch and I’ll explain what that means. 
 
 ---
 
