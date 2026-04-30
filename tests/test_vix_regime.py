@@ -1,10 +1,6 @@
 import pandas as pd
 import numpy as np
 import pytest
-import sys
-import os
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from macro_regime.regimes import classify_vix_stress_regime
 
