@@ -62,17 +62,13 @@ source .venv/bin/activate        # Mac/Linux
 # .venv\Scripts\activate         # Windows
 ```
 
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Then install the project itself as an editable package (this is required so the scripts can import from `src/macro_regime`):
+### 3. Install the project
 
 ```bash
 pip install -e .
 ```
+
+Project dependencies are defined in `pyproject.toml`, which is the source of truth for installation.
 
 If you plan to run tests, install the dev dependencies too:
 
