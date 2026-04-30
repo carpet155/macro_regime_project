@@ -45,12 +45,12 @@ cd macro_regime_project
 
 ### 2. Create a Python environment
 
-You need Python 3.9 or newer. Choose **one** of the following:
+You need Python 3.10 or newer. Choose **one** of the following:
 
 **Option A — conda:**
 
 ```bash
-conda create -n macro_regime python=3.9 -y
+conda create -n macro_regime python=3.10 -y
 conda activate macro_regime
 ```
 
