@@ -48,7 +48,9 @@ $env:FRED_API_KEY="your_key_here"
 
 You do not need the API key just to import the package or load existing processed files.
 
-## Quick Example: Load and Explore Data
+## Quick Example: Explore In Memory
+
+This example does not read or write any data files. It creates a small toy DataFrame in memory so you can confirm the package imports and regime functions work after installation.
 
 Start Python from the project root:
 
@@ -59,10 +61,18 @@ python
 Then run:
 
 ```python
-from macro_regime.io import load_master_df
+import pandas as pd
 from macro_regime.regimes import assign_all_regimes
 
-df = load_master_df()
+df = pd.DataFrame({
+    "date": pd.date_range("2020-01-01", periods=6),
+    "ticker": ["XLK"] * 6,
+    "sector_return": [0.01, 0.02, -0.01, 0.03, 0.00, 0.01],
+    "cpi": [250, 251, 252, 253, 254, 255],
+    "fedfunds": [1.5, 1.6, 1.7, 1.6, 1.5, 1.4],
+    "vix": [12, 14, 20, 18, 15, 13],
+})
+
 df = assign_all_regimes(df)
 
 print(df.head())
@@ -70,6 +80,23 @@ print(df[["ticker", "macro_regime", "vix_regime"]].head())
 ```
 
 At this point, you have a `pandas` DataFrame in memory and can explore the project data interactively.
+
+## After Running the Pipeline: Load Project Data
+
+The repository does not commit generated CSV files. `load_master_df()` works after you run the full pipeline or otherwise create `data/processed/base/master_df.csv`.
+
+```bash
+python scripts/run_pipeline.py
+```
+
+Then load the generated master dataset:
+
+```python
+from macro_regime.io import load_master_df
+
+df = load_master_df()
+df.head()
+```
 
 ## Optional: Run a Simple Script
 
