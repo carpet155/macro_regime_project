@@ -1,5 +1,20 @@
 """
-Path and CSV I/O helpers for the macro_regime project.
+Input/Output Operations Module.
+Used throughout the pipeline to handle standardized reading and writing of datasets to local storage.
+
+Key Responsibilities:
+- Resolves absolute paths for raw and processed data directories.
+- Ensures required directory structures exist before saving.
+- Provides unified wrappers for Pandas CSV read/write operations.
+
+Key Functions:
+- `save_raw_csv` / `save_processed_csv`: Writes DataFrames to specific directories.
+- `load_raw_csv` / `load_processed_csv`: Reads DataFrames from specific directories.
+- `raw_path` / `processed_path`: Generates `pathlib.Path` objects.
+
+Inputs/Outputs:
+- Consumes: pd.DataFrame (for saving) or string filenames (for loading).
+- Returns: pd.DataFrame (when loading) or pathlib.Path (when saving).
 """
 
 from pathlib import Path
