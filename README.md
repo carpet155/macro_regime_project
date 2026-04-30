@@ -20,7 +20,10 @@ macro_regime_project/
   scripts/               # Ingestion, processing, and analysis scripts
   notebooks/             # Jupyter notebooks for exploration and visualization
   data/raw/              # Downloaded source data (CSV)
-  data/processed/        # Cleaned and merged outputs
+  data/processed/        # Generated outputs, organized into subfolders
+    base/                # Master datasets
+    features/            # Cleaned feature datasets
+    analysis/            # Summary tables and analysis outputs
   tests/                 # Test suite
   docs/                  # Documentation
 ```
@@ -102,7 +105,7 @@ The last three require `FRED_API_KEY` to be set. The first two pull from Yahoo F
 
 ### Step 2: Process raw data
 
-Transform all raw CSVs into cleaned files in `data/processed/`:
+Transform all raw CSVs into cleaned feature files in `data/processed/features/`:
 
 ```bash
 python scripts/run_processing.py
@@ -116,6 +119,8 @@ Merge all processed data into a single long-form DataFrame:
 python scripts/build_master_df.py
 ```
 
+This writes the master dataset to `data/processed/base/master_df.csv`.
+
 ### Step 4: Build derived outputs
 
 ```bash
@@ -123,6 +128,13 @@ python scripts/build_panel_df.py
 python scripts/build_pivot_tables.py
 python scripts/compute_avg_returns_by_regime.py
 ```
+
+These scripts write derived datasets and analysis tables to:
+
+- `data/processed/base/`
+- `data/processed/analysis/`
+
+The current pipeline does not write any required files to `data/processed/final/`.
 
 ## Running the Analysis
 
