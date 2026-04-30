@@ -19,6 +19,43 @@ import pandas as pd
 from pathlib import Path
 
 
+FEATURE_SCHEMAS = {
+    "inflation_processed.csv": {"date", "value"},
+    "treasury_processed.csv": {"date", "dgs2", "dgs10", "fedfunds"},
+    "vix_processed.csv": {"date", "vix"},
+    "spx_processed.csv": {"date", "price", "return"},
+    "sectors_processed.csv": {"date", "ticker", "price", "return"},
+}
+
+
+def _load_processed_feature(features_dir: Path, filename: str) -> pd.DataFrame:
+    """Load one processed feature CSV with clear missing-file and schema errors."""
+    path = features_dir / filename
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"Missing processed file: {path}. "
+            "Run `python scripts/run_processing.py` or the full pipeline first."
+        )
+
+    try:
+        df = pd.read_csv(path, parse_dates=["date"])
+    except Exception as exc:
+        raise RuntimeError(f"Failed to load processed file {path}: {exc}") from exc
+
+    required = FEATURE_SCHEMAS[filename]
+    missing = sorted(required.difference(df.columns))
+    if missing:
+        raise ValueError(
+            f"{path} is missing required column(s): {missing}. "
+            f"Expected at least: {sorted(required)}"
+        )
+
+    if df.empty:
+        raise ValueError(f"{path} is empty.")
+
+    return df
+
+
 def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
     """
     Load all cleaned CSVs and merge them into a single master DataFrame.
@@ -38,8 +75,7 @@ def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
     features_dir = processed_dir if processed_dir.name == "features" else (processed_dir / "features")
 
     def load(filename: str) -> pd.DataFrame:
-        path = features_dir / filename
-        return pd.read_csv(path, parse_dates=["date"])
+        return _load_processed_feature(features_dir, filename)
 
     # Load all datasets
     inflation = load("inflation_processed.csv").rename(columns={"value": "cpi"})
@@ -57,5 +93,16 @@ def build_master_df(processed_dir: str = "data/processed") -> pd.DataFrame:
     # Join sectors onto macro
     master = sectors.merge(macro, on="date", how="left")
     master = master.sort_values(["date", "ticker"]).reset_index(drop=True)
+
+    required_master = {"date", "ticker", "sector_return", "cpi", "fedfunds", "vix"}
+    missing_master = sorted(required_master.difference(master.columns))
+    if missing_master:
+        raise ValueError(
+            "Master DataFrame is missing required column(s): "
+            f"{missing_master}. Check processed input schemas."
+        )
+
+    if master.empty:
+        raise ValueError("Master DataFrame is empty. Check processed input files.")
 
     return master
