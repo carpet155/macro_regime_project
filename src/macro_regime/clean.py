@@ -1,4 +1,23 @@
-"""Pure in-memory cleaning utilities for macro and panel time series (pandas/numpy only)."""
+"""
+Data Preprocessing Utilities.
+Fits early in the pipeline to sanitize, format, and align raw input data before feature engineering or dataset assembly.
+
+Key Responsibilities:
+- Validates data integrity (missing columns, monotonic dates, duplicate keys).
+- Standardizes datetime indices across different reporting frequencies.
+- Implements gap-filling logic (e.g., forward-filling macro series).
+- Computes base simple and log returns.
+
+Key Functions:
+- `standardize_dates`: Aligns time-series data to standard business day frequencies.
+- `compute_returns`: Calculates simple/log returns for price series.
+- `fill_macro_series` / `fill_sector_return_gaps`: Handles missing data interpolation.
+- `validate_required_columns`: Ensures required data structure before processing.
+
+Inputs/Outputs:
+- Consumes: pd.DataFrame (raw or partially processed time-series data).
+- Returns: pd.DataFrame (cleaned, standardized data ready for merging).
+"""
 
 from __future__ import annotations
 
