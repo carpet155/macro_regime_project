@@ -13,6 +13,10 @@ classify_vix_stress_regime : classify VIX as stress/calm using a quantile thresh
 
 All functions are fully vectorized and designed to compose cleanly.
 """
+import logging
+
+# Initialize logger for this module
+logger = logging.getLogger(__name__)
 from config import (
     INFLATION_REGIME_METHOD, 
     INFLATION_FIXED_THRESHOLD,
@@ -21,6 +25,7 @@ from config import (
     VIX_STRESS_PERCENTILE
 )
 import numpy as np
+
 import pandas as pd
 
 # Expected component label sets (from issues #64 and #65)
@@ -99,7 +104,7 @@ def assign_inflation_regime(
 
     high_pct = (out["inflation_regime"] == "high").mean() * 100
     low_pct = (out["inflation_regime"] == "low").mean() * 100
-    print(
+    logger.info(
         f"[inflation_regime] threshold={threshold:.4f} ({method}) | "
         f"high={high_pct:.1f}%  low={low_pct:.1f}%"
     )
@@ -147,9 +152,9 @@ def classify_rate_regime(
 
     rising_pct = (regime == "rising").mean() * 100
     falling_pct = (regime == "falling").mean() * 100
-    print(
-        f"[rate_regime] method={method} | primary={primary_series} | "
-        f"rising={rising_pct:.1f}%  falling={falling_pct:.1f}%"
+    logger.info(
+        f"[rate_regime] " 
+        f"rising={rising_pct:.1f}%  falling={falling_pct:.1f}%" 
     )
 
     return regime
