@@ -141,7 +141,7 @@ def compute_returns(series: pd.Series, method: str = "simple") -> pd.Series:
     """Vectorized simple or log returns; first observation is NaN, index aligned to input."""
     s = series.astype(float)
     if method == "simple":
-        return s.pct_change()
+        return s.pct_change(fill_method=None)
     if method == "log":
         with np.errstate(divide="ignore", invalid="ignore"):
             return np.log(s / s.shift(1))
