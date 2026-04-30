@@ -33,3 +33,5 @@ data/processed/**/*
 !data/processed/**/.gitkeep
 notebooks/.ipynb_checkpoints/
 anaconda_projects/
+
+.vscode/
