@@ -20,3 +20,8 @@ docs/analysis_issues_audit_report.md.vscode/
 __pycache__/
 .DS_Store
 data/processed/base/master_df.csv
+
+# Local / generated data (DO NOT TRACK)
+data/raw/
+notebooks/.ipynb_checkpoints/
+anaconda_projects/
