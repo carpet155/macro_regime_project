@@ -30,6 +30,8 @@ macro_regime_project/
 
 ## Installation
 
+For the shortest setup path, see [QUICKSTART.md](QUICKSTART.md).
+
 ### 1. Clone the repository
 
 ```bash
