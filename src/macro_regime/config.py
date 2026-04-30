@@ -1,11 +1,20 @@
 """
-Configuration values for the macro_regime project.
+Centralized Configuration Parameters.
+Acts as the single source of truth for the entire pipeline, storing global variables, file paths, and identifiers.
 
-This file is the single source of truth for:
-- market tickers
-- FRED series identifiers
-- canonical raw file names
-- default ingestion date range
+Key Responsibilities:
+- Defines directory structures for raw and processed data.
+- Stores canonical ETF tickers, FRED series IDs, and Yahoo Finance identifiers.
+- Sets standard column naming conventions for the output datasets.
+
+Key Variables:
+- `PROJECT_ROOT`, `RAW_DIR`, `PROCESSED_DIR`: Path objects for file I/O.
+- `SECTOR_TICKERS`, `TREASURY_SERIES`: Dictionaries mapping tickers to canonical names.
+- `RAW_FILES`: Dictionary mapping data types to canonical CSV filenames.
+
+Inputs/Outputs:
+- Consumes: N/A
+- Returns: Standard Python data types (Path objects, dicts, strings).
 """
 
 from pathlib import Path
