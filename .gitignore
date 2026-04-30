@@ -19,9 +19,17 @@ venv/
 docs/analysis_issues_audit_report.md.vscode/
 __pycache__/
 .DS_Store
-data/processed/base/master_df.csv
 
 # Local / generated data (DO NOT TRACK)
-data/raw/
+data/raw/*
+data/processed/**/*
+
+# Keep data documentation and empty folder structure
+!data/README.md
+!data/raw/
+!data/raw/.gitkeep
+!data/processed/
+!data/processed/**/
+!data/processed/**/.gitkeep
 notebooks/.ipynb_checkpoints/
 anaconda_projects/
