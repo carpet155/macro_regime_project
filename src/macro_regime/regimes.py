@@ -1,20 +1,36 @@
 """
-src/macro_regime/regimes.py
+Macroeconomic Regime Classification Module.
+Sits post-build to translate continuous economic indicators (inflation, rates, VIX) into discrete categorical regimes.
 
-Regime classification functions for macro analysis.
+Key Responsibilities:
+- Classifies high/low inflation states based on sample medians or fixed thresholds.
+- Classifies rising/falling interest rate environments using rolling differences.
+- Combines independent components into a 4-quadrant composite macro regime.
+- Classifies market stress periods using VIX percentiles.
 
-Functions
----------
-assign_inflation_regime : high / low inflation label per row  (issue #64)
-classify_rate_regime    : rising / falling rate label per row (issue #65)
-assign_rate_regime      : convenience wrapper that attaches rate_regime to df
-combine_macro_regime    : combine inflation + rate regimes into 4 macro labels (issue #66)
-classify_vix_stress_regime : classify VIX as stress/calm using a quantile threshold (issue #67)
+Key Functions:
+- `assign_inflation_regime`: Maps CPI to "high" or "low" states.
+- `classify_rate_regime`: Maps Fed Funds/Treasuries to "rising" or "falling".
+- `combine_macro_regime`: Merges inflation and rate states into composite labels.
+- `classify_vix_stress_regime`: Maps VIX data to "stress" or "calm".
 
-All functions are fully vectorized and designed to compose cleanly.
+Inputs/Outputs:
+- Consumes: pd.DataFrame or pd.Series containing continuous economic data.
+- Returns: pd.DataFrame or pd.Series with appended categorical regime labels.
 """
+import logging
 
+# Initialize logger for this module
+logger = logging.getLogger(__name__)
+from config import (
+    INFLATION_REGIME_METHOD, 
+    INFLATION_FIXED_THRESHOLD,
+    RATE_REGIME_METHOD,
+    RATE_CHANGE_WINDOW,
+    VIX_STRESS_PERCENTILE
+)
 import numpy as np
+
 import pandas as pd
 
 # Expected component label sets (from issues #64 and #65)
@@ -33,8 +49,8 @@ _REGIME_MAP = {
 def assign_inflation_regime(
     df: pd.DataFrame,
     inflation_col: str = "cpi",
-    method: str = "median",
-    fixed_threshold: float = None,
+    method: str = INFLATION_REGIME_METHOD,
+    fixed_threshold: float = INFLATION_FIXED_THRESHOLD,
 ) -> pd.DataFrame:
     """
     Assign a high/low inflation regime to each row in the master DataFrame.
@@ -93,7 +109,7 @@ def assign_inflation_regime(
 
     high_pct = (out["inflation_regime"] == "high").mean() * 100
     low_pct = (out["inflation_regime"] == "low").mean() * 100
-    print(
+    logger.info(
         f"[inflation_regime] threshold={threshold:.4f} ({method}) | "
         f"high={high_pct:.1f}%  low={low_pct:.1f}%"
     )
@@ -104,8 +120,8 @@ def assign_inflation_regime(
 def classify_rate_regime(
     rates: pd.Series,
     *,
-    method: str = "diff",
-    window: int = 21,
+    method: str = RATE_REGIME_METHOD,
+    window: int = RATE_CHANGE_WINDOW,
     primary_series: str = "fedfunds",
 ) -> pd.Series:
     """
@@ -141,9 +157,9 @@ def classify_rate_regime(
 
     rising_pct = (regime == "rising").mean() * 100
     falling_pct = (regime == "falling").mean() * 100
-    print(
-        f"[rate_regime] method={method} | primary={primary_series} | "
-        f"rising={rising_pct:.1f}%  falling={falling_pct:.1f}%"
+    logger.info(
+        f"[rate_regime] " 
+        f"rising={rising_pct:.1f}%  falling={falling_pct:.1f}%" 
     )
 
     return regime
@@ -152,8 +168,8 @@ def classify_rate_regime(
 def assign_rate_regime(
     df: pd.DataFrame,
     rate_col: str = "fedfunds",
-    method: str = "diff",
-    window: int = 21,
+    method: str = RATE_REGIME_METHOD,
+    window: int = RATE_CHANGE_WINDOW,
 ) -> pd.DataFrame:
     """
     Convenience wrapper: attach rate_regime column to the master DataFrame.
@@ -246,7 +262,7 @@ def combine_macro_regime(
 def classify_vix_stress_regime(
     vix: pd.Series,
     *,
-    q: float = 0.75,
+    q: float = VIX_STRESS_PERCENTILE,
     window: int | None = None,
     min_periods: int | None = 1,
 ) -> pd.Series:

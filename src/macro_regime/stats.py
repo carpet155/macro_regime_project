@@ -1,7 +1,20 @@
 """
-Statistical testing framework.
-Contains functions for running hypothesis tests (e.g., T-tests, Kolmogorov-Smirnov) 
-on sector performance distributions.
+Statistical Testing Framework.
+Fits into the analysis phase to rigorously evaluate sector performance and volatility distributions across regimes.
+
+Key Responsibilities:
+- Computes rolling historical volatility using expanding windows.
+- Calculates standardized daily returns (simple or log).
+- Performs Kolmogorov-Smirnov (KS) tests to compare distributions across regimes.
+
+Key Functions:
+- `rolling_volatility`: Calculates standard deviation over a rolling window.
+- `calculate_daily_returns`: Generates day-over-day price returns.
+- `compare_sector_volatility_distributions_ks`: Runs 2-sample KS tests on regimes.
+
+Inputs/Outputs:
+- Consumes: pd.DataFrame or pd.Series (price data, volatility metrics).
+- Returns: pd.Series or Tuple[pd.DataFrame, pd.DataFrame] containing test statistics.
 """
 
 import pandas as pd

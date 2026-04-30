@@ -77,3 +77,62 @@ VALUE_COL = "value"
 PRICE_COL = "close"
 TICKER_COL = "ticker"
 NAME_COL = "name"
+
+# --- Regime Definition Thresholds ---
+
+# Method to classify inflation ("median" or "fixed")
+INFLATION_REGIME_METHOD = "median"
+
+# Fixed cutoff for inflation (Only used if INFLATION_REGIME_METHOD = "fixed", else None)
+INFLATION_FIXED_THRESHOLD = None
+
+# Method to classify rate regimes ("diff" or "rolling_slope")
+RATE_REGIME_METHOD = "diff"
+
+# Window used for rate change calculations (21 periods = ~1 trading month)
+RATE_CHANGE_WINDOW = 21
+
+# VIX quantile threshold to define "stress" environments (0.75 = 75th percentile)
+VIX_STRESS_PERCENTILE = 0.75
+
+
+# --- Data Processing Parameters ---
+
+# Method used in pandas.DataFrame.interpolate() for filling missing data points
+INTERPOLATION_METHOD = "linear"
+
+# Pandas offset alias for resampling time series data (e.g., 'ME' for Month End)
+RESAMPLING_FREQUENCY = "ME"
+
+
+# --- Analysis Parameters ---
+
+# List of periods (in months) to look back for calculating rolling returns
+RETURN_LOOKBACK_WINDOWS = [1, 3, 6, 12]
+
+# Number of trading days to calculate rolling volatility (21 days ~ 1 trading month)
+VOLATILITY_PERIODS = 21
+
+
+def validate_config():
+    """
+    Validates that all required configuration parameters are present and properly configured.
+    """
+    required_globals = [
+        "INFLATION_REGIME_METHOD", "RATE_REGIME_METHOD", "RATE_CHANGE_WINDOW",
+        "VIX_STRESS_PERCENTILE", "INTERPOLATION_METHOD", "RESAMPLING_FREQUENCY", 
+        "RETURN_LOOKBACK_WINDOWS", "VOLATILITY_PERIODS"
+    ]
+    
+    missing = [var for var in required_globals if var not in globals()]
+    if missing:
+        raise ValueError(f"Missing required configuration variables: {', '.join(missing)}")
+
+    if INFLATION_REGIME_METHOD not in ("median", "fixed"):
+        raise ValueError("INFLATION_REGIME_METHOD must be 'median' or 'fixed'.")
+        
+    if RATE_REGIME_METHOD not in ("diff", "rolling_slope"):
+        raise ValueError("RATE_REGIME_METHOD must be 'diff' or 'rolling_slope'.")
+
+# Execute validation immediately upon import
+validate_config()

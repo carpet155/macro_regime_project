@@ -1,3 +1,20 @@
+"""
+Visualization Module.
+Fits at the tail end of the pipeline to produce graphical representations of the analyzed data and macroeconomic regimes.
+
+Key Responsibilities:
+- Overlays categorical macro regimes as background shading on continuous time-series plots.
+- Manages matplotlib figures, axes, and colormaps for consistent styling.
+- Exports generated plots to local directories for reporting.
+
+Key Functions:
+- `plot_regime_overlay`: Main entrypoint for generating time-series plots with regime shading.
+
+Inputs/Outputs:
+- Consumes: pd.DataFrame (master data), formatting strings, and optional output paths.
+- Returns: Tuple containing matplotlib Figure and Axes objects.
+"""
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from macro_regime.io import load_master_df
