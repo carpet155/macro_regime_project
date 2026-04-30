@@ -28,6 +28,10 @@ macro_regime_project/
   docs/                  # Documentation
 ```
 
+This repository does not track downloaded or generated CSV files. The `data/`
+folders are included only as empty directories. Run the pipeline or individual
+scripts to generate data locally.
+
 ## Installation
 
 For the shortest setup path, see [QUICKSTART.md](QUICKSTART.md).
