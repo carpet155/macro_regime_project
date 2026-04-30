@@ -32,7 +32,7 @@ This makes the package importable as `macro_regime`.
 
 ## Set API Key
 
-Some ingestion scripts use the FRED API for VIX, Treasury, Federal Funds, and inflation data. If you plan to download fresh data, set `FRED_API_KEY` first.
+Some ingestion scripts use the FRED API for VIX, Treasury, Federal Funds, and inflation data. If you plan to download fresh data, set `FRED_API_KEY` first. Request an API key at this link: https://fredaccount.stlouisfed.org/apikeys
 
 Mac/Linux:
 
