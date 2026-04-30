@@ -89,7 +89,37 @@ This variable only lasts for your current terminal session. To make it persisten
 
 ## Downloading and Processing Data
 
-### Step 1: Ingest raw data
+### Option A: Run the full pipeline
+
+After installation and `FRED_API_KEY` setup, run the entire project pipeline with one command:
+
+```bash
+python -m macro_regime.pipeline
+```
+
+This ingests raw data, processes cleaned feature files, builds the master dataset, builds the panel dataset, and writes analysis summary tables.
+
+You can also run the same pipeline through the script wrapper:
+
+```bash
+python scripts/run_pipeline.py
+```
+
+Expected outputs include:
+
+- `data/raw/` — downloaded raw CSV files
+- `data/processed/features/` — cleaned feature datasets
+- `data/processed/base/master_df.csv` — canonical long-form master dataset with regime columns
+- `data/processed/base/master_panel_df.csv` — wide panel dataset
+- `data/processed/analysis/` — pivot tables and average return summaries
+
+The current pipeline does not write any required files to `data/processed/final/`.
+
+### Option B: Run each step manually
+
+Use these commands if you want to debug or rerun one stage at a time.
+
+#### Step 1: Ingest raw data
 
 Each script downloads one data source into `data/raw/`. Run all five:
 
@@ -101,9 +131,9 @@ python scripts/ingest_treasury.py
 python scripts/ingest_inflation.py
 ```
 
-The last three require `FRED_API_KEY` to be set. The first two pull from Yahoo Finance and need no key.
+The FRED-based scripts require `FRED_API_KEY` to be set. The Yahoo Finance scripts need no key.
 
-### Step 2: Process raw data
+#### Step 2: Process raw data
 
 Transform all raw CSVs into cleaned feature files in `data/processed/features/`:
 
@@ -111,7 +141,7 @@ Transform all raw CSVs into cleaned feature files in `data/processed/features/`:
 python scripts/run_processing.py
 ```
 
-### Step 3: Build the master DataFrame
+#### Step 3: Build the master DataFrame
 
 Merge all processed data into a single long-form DataFrame:
 
@@ -121,7 +151,7 @@ python scripts/build_master_df.py
 
 This writes the master dataset to `data/processed/base/master_df.csv`.
 
-### Step 4: Build derived outputs
+#### Step 4: Build derived outputs
 
 ```bash
 python scripts/build_panel_df.py
@@ -133,8 +163,6 @@ These scripts write derived datasets and analysis tables to:
 
 - `data/processed/base/`
 - `data/processed/analysis/`
-
-The current pipeline does not write any required files to `data/processed/final/`.
 
 ## Running the Analysis
 
