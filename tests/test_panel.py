@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from macro_regime.build import build_master_df
 from macro_regime.panel import build_panel_df, build_wide_panel_df, pivot_panel_wide
 
 
@@ -81,6 +82,26 @@ def processed_dir(tmp_path: Path) -> Path:
 def panel(processed_dir: Path) -> pd.DataFrame:
     """A panel DataFrame built from the synthetic processed_dir."""
     return build_panel_df(str(processed_dir))
+
+
+def test_build_master_df_missing_processed_file_raises(tmp_path):
+    processed_root = tmp_path / "processed"
+    features_dir = processed_root / "features"
+    features_dir.mkdir(parents=True)
+
+    with pytest.raises(FileNotFoundError, match="Missing processed file"):
+        build_master_df(str(processed_root))
+
+
+def test_build_master_df_missing_required_column_raises(processed_dir):
+    inflation_path = processed_dir / "features" / "inflation_processed.csv"
+    pd.DataFrame({"date": _DATES, "wrong_value": [258.0, 258.1, 258.2]}).to_csv(
+        inflation_path,
+        index=False,
+    )
+
+    with pytest.raises(ValueError, match="missing required column"):
+        build_master_df(str(processed_dir))
 
 
 # ---------------------------------------------------------------------------
